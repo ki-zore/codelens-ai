@@ -8,8 +8,7 @@ export function AppProvider({ children }) {
   const [activeFile, setActiveFile] = useState(null);
   const [chatHistory, setChatHistory] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [sidebarTab, setSidebarTab] = useState('files'); // 'files' | 'graph'
-  const [rightPanel, setRightPanel] = useState('code');  // 'code' | 'graph'
+  const [sidebarTab, setSidebarTab] = useState('files'); // 'files' | 'chat'
 
   const addMessage = useCallback((msg) => {
     setChatHistory(prev => [...prev, msg]);
@@ -25,7 +24,6 @@ export function AppProvider({ children }) {
       chatHistory, setChatHistory, addMessage, clearChat,
       isLoading, setIsLoading,
       sidebarTab, setSidebarTab,
-      rightPanel, setRightPanel,
     }}>
       {children}
     </AppContext.Provider>

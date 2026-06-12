@@ -33,7 +33,6 @@ async def query_codebase(request: QueryRequest):
             project_id=request.project_id,
             question=request.question,
             top_k=request.top_k,
-            include_graph=request.include_graph,
         )
         return QueryResponse(**result)
     except Exception as e:
@@ -63,7 +62,6 @@ async def query_codebase_stream(request: QueryRequest):
                 project_id=request.project_id,
                 question=request.question,
                 top_k=request.top_k,
-                include_graph=request.include_graph,
             ):
                 yield chunk
         except Exception as e:

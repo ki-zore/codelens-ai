@@ -17,13 +17,12 @@ from typing import Optional
 from app.config import settings
 from app.services.parser import parser, ParseResult
 from app.services.vector_store import vector_store
-from app.services.graph_builder import graph_builder
 from app.utils.file_utils import collect_files, get_language, read_file_safe, get_relative_path
 from app.utils.code_utils import chunk_code
 
 logger = logging.getLogger(__name__)
 
-# Try to import gitpython
+# Try to import gitpython (optional, for future use)
 try:
     import git
     GIT_AVAILABLE = True
@@ -211,16 +210,10 @@ class IngestionService:
             except Exception as e:
                 logger.error(f"Failed to build vector index: {e}")
 
-        # Step 4: Build dependency graph
-        try:
-            graph_builder.build_graph(project_id, parse_results, dir_path)
-        except Exception as e:
-            logger.error(f"Failed to build graph: {e}")
-
         # Save parse results for later use
         self._save_parse_results(project_id, parse_results, dir_path)
 
-        result = {
+        return {
             "project_id": project_id,
             "total_files": len(files),
             "parsed_files": len(parse_results),
@@ -231,9 +224,6 @@ class IngestionService:
             "status": "completed",
             "repo_path": dir_path,
         }
-
-        logger.info(f"Ingestion complete: {result}")
-        return result
 
     def _save_parse_results(self, project_id: str, results: list[ParseResult],
                             base_path: str):

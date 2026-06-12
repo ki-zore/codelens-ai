@@ -2,7 +2,7 @@
 
 An AI-powered system that ingests codebases, builds structural + semantic understanding, and lets developers query, debug, and explore code using natural language.
 
-![Architecture](https://img.shields.io/badge/Architecture-RAG%20%2B%20Graph-6c63ff)
+![Architecture](https://img.shields.io/badge/Architecture-RAG%20%2B%20Vector%20Search-6c63ff)
 ![Backend](https://img.shields.io/badge/Backend-FastAPI-009688)
 ![Frontend](https://img.shields.io/badge/Frontend-React%20%2B%20Vite-61DAFB)
 
@@ -10,8 +10,7 @@ An AI-powered system that ingests codebases, builds structural + semantic unders
 
 - **📦 Codebase Ingestion** — Clone GitHub repos or upload ZIP files
 - **🔍 Semantic Code Search** — FAISS-powered vector search with sentence-transformers
-- **🕸️ Dependency Graph** — Visual, interactive dependency mapping (files → functions → calls)
-- **💬 AI Chat** — Natural language Q&A with streaming responses and code references
+- ** AI Chat** — Natural language Q&A with streaming responses and code references
 - **📝 Monaco Editor** — VS Code-like code viewer with syntax highlighting
 - **📂 File Explorer** — Browse project structure with language-colored icons
 
@@ -22,16 +21,12 @@ An AI-powered system that ingests codebases, builds structural + semantic unders
 │   Frontend   │────▶│   FastAPI Backend     │────▶│  Gemini API  │
 │  React+Vite  │◀────│                      │     └──────────────┘
 └─────────────┘     │  ┌────────────────┐  │
-                    │  │  Tree-sitter   │  │
+                    │  │  Regex Parser  │  │
                     │  │  Code Parser   │  │
                     │  └────────────────┘  │
                     │  ┌────────────────┐  │
                     │  │  FAISS Vector  │  │
                     │  │    Index       │  │
-                    │  └────────────────┘  │
-                    │  ┌────────────────┐  │
-                    │  │  NetworkX      │  │
-                    │  │  Dep. Graph    │  │
                     │  └────────────────┘  │
                     └──────────────────────┘
 ```
@@ -80,7 +75,6 @@ Open **http://localhost:5173** — the frontend proxies API calls to the backend
 | GET | `/api/ingest/projects` | List all projects |
 | POST | `/api/query/` | Query codebase (non-streaming) |
 | POST | `/api/query/stream` | Query codebase (streaming) |
-| GET | `/api/graph/{id}` | Get dependency graph |
 | GET | `/api/files/{id}/tree` | Get file tree |
 | GET | `/api/files/{id}/content/{path}` | Get file content |
 
@@ -89,15 +83,13 @@ Open **http://localhost:5173** — the frontend proxies API calls to the backend
 | Component | Technology |
 |-----------|-----------|
 | Backend | Python, FastAPI |
-| Parsing | Regex-based (Tree-sitter ready) |
+| Parsing | Regex-based |
 | Vector DB | FAISS |
 | Embeddings | sentence-transformers |
-| Graph | NetworkX |
 | LLM | Google Gemini 1.5 Flash |
 | Frontend | React 18, Vite |
 | Styling | Tailwind CSS v4 |
 | Code Editor | Monaco Editor |
-| Graph Viz | react-force-graph-2d |
 
 ## 📁 Project Structure
 

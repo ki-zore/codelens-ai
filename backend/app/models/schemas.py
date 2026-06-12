@@ -30,7 +30,6 @@ class QueryRequest(BaseModel):
     """Chat query request."""
     project_id: str
     question: str
-    include_graph: bool = Field(default=True, description="Include dependency context")
     top_k: int = Field(default=5, description="Number of code chunks to retrieve")
 
 
@@ -47,31 +46,6 @@ class QueryResponse(BaseModel):
     """Chat query response."""
     answer: str
     references: list[CodeReference] = []
-    graph_context: list[str] = []
-
-
-# ── Graph ───────────────────────────────────────────────────────────────────
-
-class GraphNode(BaseModel):
-    """A node in the dependency graph."""
-    id: str
-    label: str
-    type: str  # "file", "function", "class"
-    file_path: Optional[str] = None
-    line_number: Optional[int] = None
-
-
-class GraphEdge(BaseModel):
-    """An edge in the dependency graph."""
-    source: str
-    target: str
-    type: str  # "imports", "calls", "inherits"
-
-
-class GraphData(BaseModel):
-    """Full graph data for visualization."""
-    nodes: list[GraphNode]
-    edges: list[GraphEdge]
 
 
 # ── Files ───────────────────────────────────────────────────────────────────

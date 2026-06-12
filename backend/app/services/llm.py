@@ -56,7 +56,6 @@ class LLMService:
         self,
         question: str,
         code_context: list[dict],
-        graph_context: list[str],
         model_name: Optional[str] = None,
     ) -> str:
         """
@@ -65,14 +64,13 @@ class LLMService:
         Args:
             question: User's question
             code_context: Retrieved code chunks
-            graph_context: Dependency graph relationships
             model_name: Gemini model to use (defaults to config)
 
         Returns:
             Generated response text
         """
         self._ensure_initialized()
-        prompt = self._build_prompt(question, code_context, graph_context)
+        prompt = self._build_prompt(question, code_context)
 
         try:
             model = genai.GenerativeModel(
@@ -94,7 +92,6 @@ class LLMService:
         self,
         question: str,
         code_context: list[dict],
-        graph_context: list[str],
         model_name: Optional[str] = None,
     ) -> AsyncGenerator[str, None]:
         """
@@ -103,7 +100,7 @@ class LLMService:
         Yields chunks of the response as they are generated.
         """
         self._ensure_initialized()
-        prompt = self._build_prompt(question, code_context, graph_context)
+        prompt = self._build_prompt(question, code_context)
 
         try:
             model = genai.GenerativeModel(
@@ -126,9 +123,8 @@ class LLMService:
             logger.error(f"LLM streaming error: {e}")
             yield f"Error: {str(e)}"
 
-    def _build_prompt(self, question: str, code_context: list[dict],
-                      graph_context: list[str]) -> str:
-        """Build the prompt with code and graph context."""
+    def _build_prompt(self, question: str, code_context: list[dict]) -> str:
+        """Build the prompt with code context."""
         sections = []
 
         # Code context
@@ -142,13 +138,6 @@ class LLMService:
                     f"relevance: {score:.2f})\n"
                     f"```\n{chunk['content']}\n```\n"
                 )
-
-        # Graph context
-        if graph_context:
-            sections.append("## Dependency Relationships\n")
-            for rel in graph_context[:20]:  # Limit to avoid token overflow
-                sections.append(f"- {rel}")
-            sections.append("")
 
         # Question
         sections.append(f"## Question\n{question}")

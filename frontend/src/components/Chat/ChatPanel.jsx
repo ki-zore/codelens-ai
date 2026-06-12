@@ -84,7 +84,7 @@ export default function ChatPanel() {
             <h3 className="text-lg font-semibold text-text-primary mb-2">Ask about your codebase</h3>
             <p className="text-sm text-text-muted max-w-md">
               {activeProject
-                ? 'Ask questions about code structure, debug issues, or explore dependencies.'
+                ? 'Ask questions about code structure, functionality, and debug issues.'
                 : 'Select or add a project to get started.'}
             </p>
             {activeProject && (

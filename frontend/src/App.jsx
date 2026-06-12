@@ -4,11 +4,10 @@ import Sidebar from './components/Layout/Sidebar';
 import ChatPanel from './components/Chat/ChatPanel';
 import FileExplorer from './components/FileExplorer/FileExplorer';
 import CodeViewer from './components/CodeViewer/CodeViewer';
-import GraphView from './components/GraphView/GraphView';
-import { FolderTree, GitGraph, Code, MessageSquare } from 'lucide-react';
+import { FolderTree, Code, MessageSquare } from 'lucide-react';
 
 function AppContent() {
-  const { activeProject, rightPanel, setRightPanel } = useApp();
+  const { activeProject } = useApp();
   const [leftTab, setLeftTab] = useState('files'); // 'files' | 'chat'
 
   return (
@@ -42,23 +41,14 @@ function AppContent() {
           </div>
         </div>
 
-        {/* Right panel: Code viewer or Graph */}
+        {/* Right panel: Code viewer */}
         <div className="flex-1 flex flex-col min-w-0">
-          {/* Tab bar */}
+          {/* Code viewer title */}
           <div className="flex border-b border-border bg-dark-800 shrink-0">
-            {[
-              ['code', Code, 'Code'],
-              ['graph', GitGraph, 'Dependencies'],
-            ].map(([key, Icon, label]) => (
-              <button key={key} onClick={() => setRightPanel(key)}
-                className={`flex items-center gap-2 px-4 py-2.5 text-xs font-semibold
-                  border-b-2 transition-colors
-                  ${rightPanel === key
-                    ? 'border-accent text-accent bg-accent/5'
-                    : 'border-transparent text-text-muted hover:text-text-secondary'}`}>
-                <Icon size={14} />{label}
-              </button>
-            ))}
+            <div className="flex items-center gap-2 px-4 py-2.5">
+              <Code size={14} />
+              <span className="text-xs font-semibold text-text">Code</span>
+            </div>
 
             {activeProject && (
               <div className="ml-auto flex items-center gap-2 px-4">
@@ -70,7 +60,7 @@ function AppContent() {
           </div>
 
           <div className="flex-1 min-h-0">
-            {rightPanel === 'code' ? <CodeViewer /> : <GraphView />}
+            <CodeViewer />
           </div>
         </div>
       </div>
