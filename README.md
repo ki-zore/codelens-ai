@@ -114,3 +114,6 @@ codebase-ai/
 │   └── package.json
 └── README.md
 ```
+
+
+this project is for learning purpose only.
